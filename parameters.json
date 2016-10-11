@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": null
+        },        
+        "virtualMachines_adminPassword": {
+            "value": null
+        },
+        "availabilitySets_WebTierAS_name": {
+            "value": null
+        },
+        "virtualMachines_www001_name": {
+            "value": null
+        },
+        "virtualMachines_www002_name": {
+            "value": null
+        },
+        "loadBalancers_wwwlb_name": {
+            "value": null
+        },
+        "networkInterfaces_www001_nic_name": {
+            "value": null
+        },
+        "networkInterfaces_www002_nic_name": {
+            "value": null
+        },
+        "networkSecurityGroups_FrontEndSG_name": {
+            "value": null
+        },
+        "publicIPAddresses_www001_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_www002_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_wwwlbip_name": {
+            "value": null
+        },
+        "virtualNetworks_name": {
+            "value": null
+        },
+        "virtualNetwork_subnet_name": {
+            "value": null
+        },
+        "storageAccounts_name": {
+            "value": null
+        },
+        "loadBalancers_wwwlb_id": {
+            "value": null
+        },
+        "loadBalancers_wwwlb_pool_id": {
+            "value": null
+        },
+        "loadBalancers_wwwlb_probe_id": {
+            "value": null
+        }
+    }
+}

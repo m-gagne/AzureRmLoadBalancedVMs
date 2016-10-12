@@ -348,7 +348,7 @@
                     "fileUris": [
                     "https://raw.githubusercontent.com/m-gagne/AzureRmLoadBalancedVMs/master/setupVM.ps1"
                 ],
-                "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File setupVM.ps1 | Out-File 'c:\\extension.log'"
+                "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File setupVM.ps1"
                 }
             }
         },

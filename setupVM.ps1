@@ -4,6 +4,9 @@ $setupScript  = "https://github.com/m-gagne/AzureRmLoadBalancedVMs.git"
 $demoAppRepo  = "https://github.com/m-gagne/ServerInfoDemoApp-DotNet.git"
 $wwwRoot      = "c:\inetpub\wwwroot"
 
+# Start logging
+Start-Transcript -Path "$dscRootPath\transcript.log"
+
 # Install Chocolatey (package manager for Windows) 
 $env:chocolateyUseWindowsCompression = 'false'
 iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
@@ -21,10 +24,13 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 git clone "$setupScript" "$dscRootPath"
 
 # Run the DSC to install IIS, .NET etc.
-Start-DscConfiguration -Path "$dscRootPath\WebServerConfig" -Wait -Verbose | Out-File "$dscRootPath\WebServerConfig.log"
+Start-DscConfiguration -Path "$dscRootPath\WebServerConfig" -Wait -Verbose
 
 # Empty the default wwwroot site
 Remove-Item "$wwwRoot\*" -Recurse -Force -Confirm:$false
 
 # Clone the demo app into the
 git clone "$demoAppRepo" "$wwwRoot"
+
+# End logging
+Stop-Transcript

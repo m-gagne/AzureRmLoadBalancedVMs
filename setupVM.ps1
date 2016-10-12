@@ -1,5 +1,8 @@
 # Variables
 $dscRootPath = "c:\VmDsc"
+$setupScript = "https://github.com/m-gagne/AzureRmLoadBalancedVMs.git"
+$demoAppRepo = "https://github.com/m-gagne/ServerInfoDemoApp-DotNet.git"
+$wwwRoot = "c:\inetpub\wwwroot"
 
 # Install Chocolatey (package manager for Windows) 
 $env:chocolateyUseWindowsCompression = 'false'
@@ -15,13 +18,13 @@ choco install googlechrome -Confirm:$false
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 
 # Clone the setup scripts
-git clone https://github.com/m-gagne/AzureRmLoadBalancedVMs.git $dscRootPath
+git clone $setupScript $dscRootPath
 
 # Run the DSC to install IIS, .NET etc.
 Start-DscConfiguration -Path $dscRootPath\WebServerConfig -Wait -Verbose 
 
 # Empty the default wwwroot site
-Remove-Item c:\inetpub\wwwroot\* -Recurse -Force -Confirm:$false
+Remove-Item $wwwRoot\* -Recurse -Force -Confirm:$false
 
 # Clone the demo app into the
-git clone https://github.com/m-gagne/ServerInfoDemoApp-DotNet.git c:\inetpub\wwwroot
+git clone $demoAppRepo $wwwRoot

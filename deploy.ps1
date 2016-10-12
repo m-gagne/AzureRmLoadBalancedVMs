@@ -48,7 +48,7 @@ param(
  $templateFilePath = "template.json",
 
  [string]
- $parametersFilePath = "parameters.json",
+ $parametersFilePath = $null,
 
  [bool]
  $skipLogin = $False
@@ -109,7 +109,7 @@ else{
 
 # Start the deployment
 Write-Host "Starting deployment...";
-if(Test-Path $parametersFilePath) {
+if($parametersFilePath -And (Test-Path $parametersFilePath) -eq $True) {
     New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath -Verbose;
 } else {
     New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -Verbose;

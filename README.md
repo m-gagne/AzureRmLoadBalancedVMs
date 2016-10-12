@@ -4,10 +4,7 @@
 
 Azure Resource Manager template to configure 2 or more Virtual Machines in an availability set that are load balanced.
 
-To deploy run `deploy.ps1`
-
-To customize see `parameters` section of `template.json`
-
+To deploy run (in Powershell) `./deploy.ps1 -subscriptionId <id> -resourceGroupName <name> -resourceGroupLocation <location> -deploymentName <name> -skipLogin <$False|$True>`
 
 ## setupVM.ps1
 

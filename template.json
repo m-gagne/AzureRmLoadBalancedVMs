@@ -96,10 +96,7 @@
         "loadBalancerBackEndIPConfigID": "[concat(variables('loadBalancerProbeNICID'), '/ipConfigurations/', 'primaryIP')]",
         "loadBalancerPublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('loadBalancerPublicIpName'))]",
         "storageAccountName": "[concat(parameters('storageAccountName'), uniqueString(subscription().subscriptionId))]",
-        "frontEndSubnetID": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('vnetSubnetName'))]",
-        "vmExtensionName": "dscExtension",
-        "modulesUrl": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/iis-2vm-sql-1vm/scripts/WebServerConfig.ps1.zip",
-        "configurationFunction": "WebServerConfig.ps1\\WebServerConfig"        
+        "frontEndSubnetID": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('vnetSubnetName'))]"
     },
     "resources": [
         {
@@ -329,7 +326,32 @@
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('nicName'), copyindex()))]"
             ]
-        },              
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('vmNamePrefix'), copyIndex(),'/MyCustomWebAppDemoScript')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "copy": {
+                "name": "extensionLoop",
+                "count": "[parameters('numberOfInstances')]"
+            },          
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('vmNamePrefix'), copyIndex())]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.7",
+                "autoUpgradeMinorVersion":true,
+                "settings": {
+                    "fileUris": [
+                    "https://raw.githubusercontent.com/m-gagne/AzureRmLoadBalancedVMs/master/setupVM.ps1"
+                ],
+                "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File setupVM.ps1 | Out-File 'c:\\extension.log'"
+                }
+            }
+        },
         {
             "comments": "Load balancer for our web servers.",
             "type": "Microsoft.Network/loadBalancers",
@@ -428,6 +450,6 @@
             },
             "resources": [],
             "dependsOn": []
-        }        
+        }   
     ]
 }

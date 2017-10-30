@@ -143,9 +143,12 @@
             "comments": "Availability Set for the servers.",
             "type": "Microsoft.Compute/availabilitySets",
             "name": "[parameters('availabilitySetName')]",
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2017-03-30",
             "location": "[parameters('location')]",
             "tags": {},
+            "sku": {
+                "name": "Aligned"
+            },
             "properties": {
                 "platformUpdateDomainCount": 5,
                 "platformFaultDomainCount": 3
@@ -272,12 +275,12 @@
             "comments": "Virtual Machines'.",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[concat(parameters('vmNamePrefix'), copyIndex())]",
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2017-03-30",
             "location": "[parameters('location')]",
             "copy": {
                 "name": "nicLoop",
                 "count": "[parameters('numberOfInstances')]"
-            },            
+            },
             "properties": {
                 "availabilitySet": {
                     "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
@@ -293,12 +296,7 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "name": "osdisk",
-                        "createOption": "FromImage",
-                        "vhd": {
-                            "uri": "[concat('https://', variables('storageAccountName'), '.blob.core.windows.net', '/vhds/', 'osdisk', copyindex(), '.vhd')]"
-                        },
-                        "caching": "ReadWrite"
+                        "createOption": "FromImage"
                     },
                     "dataDisks": []
                 },
@@ -323,7 +321,6 @@
             "resources": [],
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('nicName'), copyindex()))]"
             ]
         },
@@ -353,7 +350,7 @@
             }
         },
         {
-            "comments": "Load balancer for our web servers.",
+            "comments": "ILB for our web servers.",
             "type": "Microsoft.Network/loadBalancers",
             "name": "[parameters('loadBalancerName')]",
             "apiVersion": "2016-03-30",

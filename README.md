@@ -2,6 +2,11 @@
 
 This project includes an [Azure Resource Manager](https://azure.microsoft.com/en-us/documentation/articles/resource-group-overview/) (ARM) template for deploying Virtual Machines which are load balanced and configured using the best practices (Vnet, Subnet, Security Groups etc.) outlined in this [blog post](http://gotsomething.com/2016/05/30/how-to-load-balance-virtual-machines-in-azure/). Also included is a [custom script extension](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-windows-extensions-customscript/) that is executed on the host Windows Server VM that installs IIS & a demo website.
 
+## Requirments
+
+* You will need an active Azure Subscription ([free trial](https://azure.microsoft.com/en-us/free/?v=17.39a))
+* You will need [Azure Powershell](https://github.com/Azure/azure-powershell/releases)
+
 ## Key files
 
 ### template.json
